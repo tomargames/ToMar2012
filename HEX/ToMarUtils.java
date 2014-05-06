@@ -1,0 +1,485 @@
+import java.applet.*;
+import java.awt.Color;
+import java.util.*;
+import java.net.*;
+
+public class ToMarUtils
+{
+	private static long startSec;
+	
+	public static void startTimer()
+	{
+		startSec = (new Date()).getTime();
+	}
+	public static long getElapsedSeconds()
+	{
+		return ((new Date()).getTime() - startSec)/1000;
+	}
+	public static long getMilliSeconds()
+	{
+		return ((new Date()).getTime() - startSec);
+	}
+	public static void log(String s)
+	{
+		System.out.println(s);
+	}
+	public static String displayTime(long seconds)
+	{
+		// format seconds into 00:00
+		int hrs = (int) seconds/3600;
+		int mins = (int) ((seconds/60) % 60);
+		int secs = (int) (seconds % 60);
+		return (formatNumber(hrs,2) + ":" + formatNumber(mins,2) + ":" + formatNumber(secs,2));
+	}
+	public static String[] vectorToStringArray(Vector v)
+	{
+		String[] str = new String[v.size()];
+		for (int i = 0; i < v.size(); i++)
+		{
+			str[i] = (String) v.elementAt(i);
+		}
+		return str;
+	}
+	public static Color stringToColor(String paramValue)
+	{
+		int red;
+		int green;
+		int blue;
+
+		red = (Integer.decode("0x" + paramValue.substring(0,2))).intValue();
+		green = (Integer.decode("0x" + paramValue.substring(2,4))).intValue();
+		blue = (Integer.decode("0x" + paramValue.substring(4,6))).intValue();
+		System.out.println("red = " + red + ", green = " + green + ", blue = " + blue);	
+		return new Color(red,green,blue);
+	}
+	public static Color getColor(int index)
+	{
+		Color palette[] = {
+				new Color(255,0,0),     // 00 red
+				new Color(0,255,0),     // 01 green
+				new Color(0,0,255),     // 02 blue
+				new Color(255,255,0),   // 03 yellow
+				new Color(255,0,255),   // 04 magenta
+				new Color(0,125,255),   // 05 light blue
+				new Color(255,125,125), // 06 light pink
+				new Color(125,255,125), // 07 light green
+				new Color(255,255,125), // 08 light yellow
+				new Color(255,125,255), // 09 light magenta
+				new Color(0,0,0),       // 10 black             
+				new Color(0,255,255),   // 11 cyan
+				new Color(125,125,255), // 12 light purple
+				new Color(125,255,255), // 13 light cyan
+				new Color(0,255,125),   // 14 medium green
+				new Color(255,0,125),   // 15 dark pink
+				new Color(255,125,0),   // 16 orange    
+				new Color(125,0,255),   // 17 purple
+				new Color(125,255,0),   // 18 yellow green
+				new Color(125,0,0),     // 19 dark red
+				new Color(0,125,0),     // 20 dark green
+				new Color(0,0,125),     // 21 dark blue 
+				new Color(255,255,255), // 22 white     
+				new Color(125,125,125), // 23 gray  
+				new Color(90,90,90),	// 24 dark grey
+				new Color(90,45,90),	// 25 plum
+				new	Color(255,255,200),	// 26 pale yellow
+				new Color (200,200,255), // 27 pale orchid
+				new Color (200,200,200), // 28 light grey
+				new Color (250,250,235), // 29 cream - ToMar background
+				new Color (204,221,255), // 30 pale blue
+				new Color (225,225,225), // 31 light light grey 
+				new Color (227,247,255), // 32 off-white
+				new Color (147,112,219), // 33 
+				new Color (198,163,255), // 34  
+				new Color (170,0,0),	// 35 dark red
+				new Color (0,170,0),	// 36 dark green
+				new Color (0,170,204),  // 37 dark cyan
+				new Color (0,0,170),	// 38 dark blue
+				new Color (128,0,128),	// 39 purple
+				new Color (0,150,180)};  // 40 darker cyan
+		return palette[index];
+	}    
+	private static int[] multipliers = {37, 19, 43, 61, 59, 11, 71, 17, 23, 41, 87, 9, 8, 7, 6};
+	public static int getCheck(int highScore, String ts)
+	{
+//		log("ToMarUtils.getCheck -- highScore = " + highScore + ", ts = " + ts);
+		int check = 0;
+		String scoreIn = "" + highScore;
+		int max = (scoreIn.length() > multipliers.length) ? multipliers.length : scoreIn.length();
+		for (int i = 0; i < max; i++)
+		{
+			check += (new Integer(scoreIn.substring(i, i + 1)).intValue()) * multipliers[i];
+		}
+//		log("Check after score is " + check);
+		for (int i = 0; i < ts.length(); i++)
+		{
+			check += (new Integer(ts.substring(i, i + 1)).intValue()) * multipliers[i];
+		}
+//		log("Check after ts is " + check);
+		return check;
+	}	
+	public static int getCheck(String lowScore)
+	{
+		int check = 0;
+		String scoreIn = (lowScore + "-------------------").substring(0,multipliers.length);
+		for (int i = 0; i < multipliers.length; i++)
+		{
+			try
+			{
+				check += (new Integer(scoreIn.substring(i, i + 1)).intValue()) * multipliers[i];
+			}
+			catch (Exception e)
+			{
+				check += multipliers[i];
+			}	
+		}
+		return check;
+	}	
+	public static int getRnd(int value)
+	{
+		return (int)(Math.random() * value);
+	}    
+	
+	public static String getNiceDate()
+	{
+		String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+		String[] months = {"January", "February", "March", "April", "May", "June", "July", 
+				"August", "September", "October", "November", "December"};
+		Calendar sysDate = Calendar.getInstance();
+		String dayOfWeek = days[sysDate.get(Calendar.DAY_OF_WEEK) - 1];
+		String month = months[sysDate.get(Calendar.MONTH)];
+		String time = formatNumber(sysDate.get(Calendar.HOUR_OF_DAY), 2) + ":" +
+		formatNumber(sysDate.get(Calendar.MINUTE), 2) + ":" +
+		formatNumber(sysDate.get(Calendar.SECOND), 2) + " (E";
+		if (sysDate.get(Calendar.DST_OFFSET) > 0)
+		{
+			time += "DT)";
+		}
+		else
+		{
+			time += "ST)";
+		}	
+		return (dayOfWeek + ", " + month + " " + sysDate.get(Calendar.DATE) + ", " +
+				sysDate.get(Calendar.YEAR) + " at " + time); 
+//		return sysDate.toString();
+	}	
+	public static String getWeeklyDate()
+	{	
+		Calendar sysDate = Calendar.getInstance();
+		int dw = sysDate.get(Calendar.DAY_OF_WEEK);
+		// if it's not Monday, get date of previous Monday
+		if  (dw == 1)
+		{
+			sysDate.add(Calendar.DATE, -6);
+		}
+		else if  (dw > 2)
+		{
+			sysDate.add(Calendar.DATE, (2 - dw));
+		}
+		int yy = sysDate.get(Calendar.YEAR);
+		int mm = 1 + sysDate.get(Calendar.MONTH);
+		int dd = sysDate.get(Calendar.DATE);
+		return ("" + yy).substring(2,4) + formatNumber(mm,2) + formatNumber(dd,2);
+	}	
+	public static String formatNumber(int numberIn, int numberOfDigits)
+	{
+		String numberOut = "000000000" + numberIn;
+		return numberOut.substring(numberOut.length() - numberOfDigits);
+	}	
+	public static String formatDecimals(double numberIn,int numberOfDecimals)
+	{
+		String num = "" + numberIn;
+		String beginning = "";
+		String decimals = "";
+//		log("formatDecimals, numberIn is " + numberIn + ", decimals is " + numberOfDecimals);
+		int len = num.length();
+		int dec = num.indexOf(".");
+		if (dec == -1)
+		{
+			return formatNumber((int) numberIn, len);
+		}
+		else if (dec > 0)
+		{	
+			beginning = num.substring(0, dec);
+		}
+		decimals = num.substring(dec + 1) + "000000000";
+		String decDigits = decimals.substring(0, numberOfDecimals);
+		if ("56789".indexOf(decimals.substring(numberOfDecimals, numberOfDecimals + 1)) > -1)
+		{
+			if (numberOfDecimals == 0)
+			{
+				int begInt = Integer.parseInt(beginning) + 1;
+				beginning = "" + begInt;
+			}
+			else
+			{	
+				int decInt = Integer.parseInt(decDigits);
+				decDigits = formatNumber(decInt + 1, numberOfDecimals);
+			}	
+		}
+		if (numberOfDecimals == 0)
+		{
+			return beginning;
+		}
+		return (beginning + "." + decDigits);
+	}	
+	public static String doName(String name)
+	{
+		if (name == null)
+		{
+			return "";
+		}	
+		String[] badWords = {"FUCK", "CUNT", "SUCK", "DICK", "SLUT","SHIT","TIT","BITCH","COCK",
+				"PISS", "HTTP", "<A", "WACK", "WHACK", "PENIS", "FAG"};
+		String tempName = name.toUpperCase();
+		for (int i = 0; i < badWords.length; i++)
+		{	
+			int ptr = tempName.indexOf(badWords[i]);
+			if (ptr > -1)
+			{
+				name = name.substring(0, ptr) + "****" + name.substring(ptr + 4, name.length());
+			}
+		}
+		return name;
+	}
+	public static String getServer(Applet a)
+	{
+		String where = a.getCodeBase().toString();
+		if (where.indexOf(".com") > -1)
+		{	
+			return "http://www.tomargames.com";
+		}
+		else
+		{	
+			return "http://dell24";
+		}	
+	}
+	public static String getServletPath(Applet a)
+	{
+		String where = a.getCodeBase().toString();
+		if (where.indexOf(".com") > -1)
+		{	
+			return "http://www.tomargames.com/servlets/";
+		}
+		else
+		{	
+			return "http://dell24/tomargames/servlet/";
+		}	
+	}
+	public static String sendError(Applet a)
+	{
+		return getServer(a) + "/error.html";
+	}
+	public static String getAddWordServletString(Applet a, String name, String word)
+	{
+		return (getServletPath(a) +
+			  	"tmAddWordServlet" +
+				"?name=" + name +
+				"&word=" + word);
+	}
+	public static String getHighScoreServletString(Applet a, String name, int score, int index, String returnURL)
+	{
+		String ts = getDateTimeStamp();
+		return (getServletPath(a) +
+			  	"tmHighServlet" +
+				"?name=" + name +
+				"&score=" + score +
+				"&index=" + index +
+				"&returnURL=" + returnURL +
+				"&check=" + getCheck(score, ts) +
+				"&ts=" + ts);
+	}
+	public static String postHighScore(Applet a, String name, int score, String game)
+	{
+		String ts = getDateTimeStamp();
+		return (getServletPath(a) +
+			  	"tm2007Servlet" +
+				"?name=" + name +
+				"&score=" + score +
+				"&game=" + game +
+				"&function=1" +
+				"&check=" + getCheck(score, ts) +
+				"&ts=" + ts);
+	}
+	public static String logEntry(Applet a, String name, String message, String game)
+	{
+		String ts = getDateTimeStamp();
+		return (getServletPath(a) +
+			  	"tm2007Servlet" +
+				"?name=" + name +
+				"&message=" + message +
+				"&game=" + game +
+				"&function=2" +
+				"&ts=" + ts);
+	}
+	private static int maxPoints(int scoreIn)
+	{
+		if (scoreIn < 0)
+		{
+			return 2147483647;
+		}
+		return scoreIn;
+	}
+	public static boolean isMaxPoints(int scoreIn)
+	{
+		if (scoreIn == 2147483647)
+		{
+			return true;
+		}
+		return false;
+	}
+	public static int addToPoints(int scoreIn, int scoreToAdd)
+	{
+		return maxPoints(scoreIn + scoreToAdd);
+	}
+	public static int multiplyPoints(int scoreIn, int scoreToMultiplyBy)
+	{
+		return maxPoints(scoreIn * scoreToMultiplyBy);
+	}
+	public static void main (String[] args)
+	{
+		stringToColor("FAFAEB");
+	}
+	public static int getFontSize(String browser, int fontIn)
+	{
+		int fontsize = fontIn;
+		// if it's not IE or if it's IE with a 1.5 JVM
+		if (browser.indexOf("Microsoft") == -1  ||
+				((System.getProperty("java.version")).indexOf("1.5") > -1))
+		{
+			fontsize -= 2;
+		}
+		return fontsize;
+	}	
+	public static void arraySort(int[] arrayIn)
+	{
+		boolean flips = true;
+		while (flips == true)
+		{
+			flips = false;
+			for (int i = 0; i < arrayIn.length - 1; i++)
+			{
+				if (arrayIn[i] > arrayIn[i + 1])
+				{
+					int temp = arrayIn[i];
+					int temp1 = arrayIn[i + 1];
+					arrayIn[i] = temp1;
+					arrayIn[i + 1] = temp;
+					flips = true;
+				}
+			}
+		}	
+	}	
+	public static void arraySort(String[] arrayIn)
+	{
+		boolean flips = true;
+		while (flips == true)
+		{
+			flips = false;
+			for (int i = 0; i < arrayIn.length - 1; i++)
+			{
+				if (arrayIn[i].compareTo(arrayIn[i + 1]) > -1)
+				{
+					String temp = arrayIn[i];
+					String temp1 = arrayIn[i + 1];
+					arrayIn[i] = temp1;
+					arrayIn[i + 1] = temp;
+					flips = true;
+				}
+			}
+		}	
+	}	
+	public static int[] randomPicks(int universeSize, int numberToPick)
+	{
+		int[] returnArray = new int[numberToPick];
+		StringBuffer pickString = new StringBuffer("");
+		for (int i = 0; i < universeSize; i++)
+		{
+			pickString.append(ToMarUtils.formatNumber(i,2));
+		}
+		for (int i = 0; i < numberToPick; i++)
+		{
+			int idx = 2 * (ToMarUtils.getRnd((pickString.length() / 2))); // index on pickString
+			returnArray[i] = Integer.parseInt((pickString.toString()).substring(idx, idx + 2));
+			pickString = new StringBuffer((pickString.toString()).substring(0, idx) + (pickString.toString()).substring(idx + 2));
+		}	
+		return returnArray;
+	}
+	public static void arraySort(Object[] arrayIn, String methodIn)
+	{
+		boolean flips = true;
+		while (flips)
+		{
+			String a = null;
+			String b = null;
+			flips = false;
+			for (int i = 0; i < arrayIn.length - 1; i++)
+			{
+				try
+				{
+					a = (String) arrayIn[i].getClass().getMethod(methodIn, null).invoke(arrayIn[i], null);
+					b = (String) arrayIn[i+1].getClass().getMethod(methodIn, null).invoke(arrayIn[i+1], null);
+				}
+				catch (Exception e)
+				{
+					System.out.println("ERROR!!! a = " + a + ", b = " + b + ", Error: " + e);
+					break;
+				}
+				if (a.compareTo(b) > -1)
+				{
+					Object temp = arrayIn[i];
+					Object temp1 = arrayIn[i + 1];
+					arrayIn[i] = temp1;
+					arrayIn[i + 1] = temp;
+					flips = true;
+				}
+//				System.out.println("a = " + a + ", b = " + b + ", flips is " + flips);
+			}
+		}	
+	}	
+	public static String getDateTimeStamp()
+	{
+		Calendar sysDate = Calendar.getInstance();
+		String month = formatNumber(sysDate.get(Calendar.MONTH) + 1, 2);
+		String time = formatNumber(sysDate.get(Calendar.HOUR_OF_DAY), 2) +
+			formatNumber(sysDate.get(Calendar.MINUTE), 2) + formatNumber(sysDate.get(Calendar.SECOND), 2);
+		return (sysDate.get(Calendar.YEAR) + month + formatNumber(sysDate.get(Calendar.DATE),2) + time);
+//		return sysDate.toString();
+	}
+	public static String escape(String s)
+	{
+		boolean fixed = true;
+		while (fixed == true)
+		{
+			fixed = false;	
+			int space = s.indexOf(" ");
+			if (space > -1)
+			{
+				fixed = true;
+				s = s.substring(0, space) + "%20" + s.substring(space + 3);
+			}	
+		}
+		return s;
+	}
+	public static String unescape(String s)
+	{
+		s += "             ";
+		boolean fixed = true;
+		while (fixed == true)
+		{
+			fixed = false;	
+			int space = s.indexOf("%20");
+			if (space > -1)
+			{
+				fixed = true;
+				s = s.substring(0, space) + " " + s.substring(space + 3);
+			}	
+			space = s.indexOf("%21");
+			if (space > -1)
+			{
+				fixed = true;
+				s = s.substring(0, space) + "!" + s.substring(space + 3);
+			}	
+		}
+		return s.trim();
+	}
+}

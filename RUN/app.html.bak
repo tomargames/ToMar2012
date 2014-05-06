@@ -1,0 +1,136 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+<script language="javascript" SRC="../tmInclude/argParse.js"></script>
+<script>
+	var saveStr = GetCookie("runeSave");
+	if (saveStr != null && saveStr != "NOGAME")
+	{
+		alert("You have a saved game; click on Load to continue it...");
+	}
+
+	function loadGame()
+	{
+		if (confirm("Are you sure you want to abandon this game and load a saved game?") == true)
+		{
+			var saveStr = GetCookie("runeSave");
+			if (saveStr != "NOGAME")
+			{
+				var rc = parent.app.applet.loadSaveString(saveStr);
+				if (rc == true)
+				{
+					alert("Game successfully loaded");
+					var exp = new Date();
+					exp.setTime(exp.getTime() + (365*24*60*60*1000));
+					SetCookie("runeSave", "NOGAME", exp);
+				}
+				else
+				{
+					alert("Problem loading game...");
+				}
+			}
+			else
+			{
+				alert("No saved game to load...");
+			}
+		}
+	}
+	function saveGame()
+	{
+		var exp = new Date();
+		exp.setTime(exp.getTime() + (365*24*60*60*1000));
+		var saveString = parent.app.applet.getSaveString();
+		if (saveString == "NO")
+		{
+			alert("Sorry, you can only save your game between rounds.");
+		}
+		else
+		{
+			SetCookie("runeSave", saveString, exp);
+			alert("Your game has successfully been saved. To continue it, click on Load...");
+		}
+	}
+	function toggle()
+	{
+		var x = parent.app.applet.toggleBold();
+	}
+</script>
+	<TITLE>ToMar Games - Runes</TITLE>
+	<LINK REL=StyleSheet
+		HREF="../tmInclude/styles.css"
+		TYPE="text/css"
+		TITLE="ToMar Style"
+		MEDIA="screen">
+</HEAD>
+
+<body>
+</script>
+
+<p align="center">
+<span class="big">Runes</big></span><br><br>
+</p>
+<script language="javascript">
+	var w = 720;
+	var h = 480;
+	var r1 = "ç";
+	var r2 = "€";
+	var r3 = "‡";
+	var r4 = "¥";
+	var r5 = "§";
+	var r6 = "Þ";
+	var r7 = "†";
+	var r8 = "¤";
+	var r9 = "ƒ";
+	var l1 = "10";
+	var l2 = "20";
+	var l3 = "30";
+	var l4 = "40";
+    document.write('<applet name="applet" code="Runes.class" width="' + w + '" height="' + h + '">');
+	document.write('<param name="RUNE1" VALUE="' + r1 + '">');
+	document.write('<param name="RUNE2" VALUE="' + r2 + '">');
+	document.write('<param name="RUNE3" VALUE="' + r3 + '">');
+	document.write('<param name="RUNE4" VALUE="' + r4 + '">');
+	document.write('<param name="RUNE5" VALUE="' + r5 + '">');
+	document.write('<param name="RUNE6" VALUE="' + r6 + '">');
+	document.write('<param name="RUNE7" VALUE="' + r7 + '">');
+	document.write('<param name="RUNE8" VALUE="' + r8 + '">');
+	document.write('<param name="RUNE9" VALUE="' + r9 + '">');
+	document.write('<param name="LEVEL1" VALUE="' + l1 + '">');
+	document.write('<param name="LEVEL2" VALUE="' + l2 + '">');
+	document.write('<param name="LEVEL3" VALUE="' + l3 + '">');
+	document.write('<param name="LEVEL4" VALUE="' + l4 + '">');
+	document.write('<param name="NAME" VALUE="' + escape(parent.argData["name"]) + '">');
+	document.write('JAVA support needed to view this applet.');
+	document.write('</APPLET>');
+</script>
+<table valign="top">
+<tr valign="top">
+<td>
+<ul valign="top">
+	<li class="text10">Click on a square to place the Rune.</li>
+	<li class="text10">Place the Rune adjacent to a rune that matches in type or color.</li>
+	<li class="text10">When a row or column is completed, you get a bonus and the squares turn gray.</li>
+	<li class="text10">Complete the level by turning all the squares gray.</li>
+	<li class="text10">Click on the WasteCan to discard a Rune.</li>
+	<li class="text10">A bomb will erase a Rune.</li>
+	<li class="text10">The WasteCan will hold up to 3 Runes; if you try to discard when it's full, the game is over.</li>
+</ul>
+</td>
+<td>
+	<table border="2" valign="top">
+		<tr><td class="text10">Save this game to play later</td>
+			<td><input type="button" onclick="javascript:saveGame()" value="Save"></td>
+			</tr>
+		<tr><td class="text10">Load a saved game</td>
+			<td><input type="button" onclick="javascript:loadGame()" value="Load"></td>
+			</tr>
+		<tr><td class="text10">Toggle Bold Font On/Off</td>
+			<td><input type="button" onClick="javascript:toggle()" value="Bold"></td>
+			</tr>
+	</table>
+</td>
+</tr>
+</table>
+
+</BODY>
+</HTML>

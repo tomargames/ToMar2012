@@ -1,0 +1,72 @@
+<html>
+<head>
+<script language="javascript" SRC="../tmInclude/argParse.js"></script>
+	<LINK REL=StyleSheet
+		HREF="../tmInclude/styles.css"
+		TYPE="text/css"
+		TITLE="ToMar Style"
+		MEDIA="screen">
+</HEAD>
+
+<body>
+<p align="center">
+<span class="big">Same Difference</big></span><br><br>
+
+<table>
+<tr><td colspan="5">
+<script language="javascript">
+	var w = 1200;
+	var h = 500;
+    document.write('<applet name="applet" code="SameDifference.class" width="' + w + '" height="' + h + '">');
+	document.write('<param name="PLAYER" VALUE="' + escape(parent.argData["name"]) + '">');
+	document.write('<param name="BROWSER" VALUE="' + escape(navigator.appName) + '">');
+	document.write('JAVA support needed to view this applet.');
+	document.write('</APPLET>');
+</script>
+	</td></tr>
+	</table>
+<ul valign="top">
+	<li class="text10">Find sets of 3 cards where each characteristic is the same across all 3 cards,
+		or different on each card.</li>
+	<li class="text10">For example, if one of the cards is black, the other two must be black, or the
+		other two must be red and blue.</li>
+	<li class="text10">The same holds true for shape, shading, and number. If two of the selected
+		cards match on a characteristic, then the third card must match as well, or
+		all 3 must be different for that characteristic.</li>
+	<li class="text10">Hints cost 10 points each.</li>
+	<li class="text10">Sorts cost 5 points each.</li>
+	<li class="text10">You'll get a time bonus if you do it in less than 10 minutes.</li>
+	<li class="text10">If more or less than 12 cards are showing, a set will be worth more points.</li>
+	<li class="text10">Sets also become worth more points if more than one characteristic is different.</li>
+</ul>
+	<table width="100%" valign="top">
+	<tr valign="top">
+	<td class="darkred8" width="25%">
+		<b>Colors</b><br>
+			Red<br>
+			Blue<br>
+			Black
+	</td>
+	<td class="darkred8" width="25%">
+		<b>Shapes</b><br>
+			Circles<br>
+			Squares<br>
+			Triangles
+	</td>
+	<td class="darkred8" width="25%">
+		<b>Shading</b><br>
+			Solid<br>
+			Empty<br>
+			Dot in the middle
+	</td>
+	<td class="darkred8" width="25%">
+		<b>Number of shapes</b><br>
+			1<br>
+			2<br>
+			3
+	</td>
+	</tr>
+
+</table>
+</BODY>
+</HTML>

@@ -1,0 +1,341 @@
+<html>
+<head>
+<title>ToMar Games: Age Calculator</title>
+<style>
+body
+{
+	 background: #FFCCFF;
+	 font-family: verdana;
+	 font-size: small;
+	 text: #000080;
+}
+h1
+{
+   font-family: verdana;
+   font-size: x-large;
+   color: #000080;
+   font-weight: normal;
+   text-align: center
+}
+p
+{
+  	text-align: center
+}
+table
+{
+  	font-size: small;
+	color: #000000;
+    font-weight: normal;
+	border: 0
+}
+</style>
+</HEAD>
+<body onload="start()">
+<h1>ToMar Age Calculator</h1>
+<SCRIPT language=JavaScript>
+// declarations
+	var maxyear = 2001;
+	var monthdays = new Array(12);
+	monthdays[0] = 31;
+	monthdays[1] = 28;
+	monthdays[2] = 31;
+	monthdays[3] = 30;
+	monthdays[4] = 31;
+	monthdays[5] = 30;
+	monthdays[6] = 31;
+	monthdays[7] = 31;
+	monthdays[8] = 30;
+	monthdays[9] = 31;
+	monthdays[10] = 30;
+	monthdays[11] = 31;
+	var weekdays = new Array(7);
+	weekdays[6] = "Sunday";
+	weekdays[5] = "Monday";
+	weekdays[4] = "Tuesday";
+	weekdays[3] = "Wednesday";
+	weekdays[2] = "Thursday";
+	weekdays[1] = "Friday";
+	weekdays[0] = "Saturday";
+
+function start()
+{
+	document.Form.day.value = "";
+	document.Form.month.value = "";
+	document.Form.year.value = "";
+//	document.Form.hrs.value = "";
+}
+function leapyear(a)
+{
+	if(((a % 4 == 0) && (a % 100 != 0)) || (a % 400 == 0))
+		return true;
+	else
+		return false;
+}
+function run()
+{
+	document.Form.age.value = "";
+	document.Form.months.value = "";
+	document.Form.weeks.value = "";
+	document.Form.answer.value = "";
+	document.Form.hours.value = "";
+	document.Form.min.value = "";
+	document.Form.sec.value = "";
+	document.Form.bday.value = "";
+	document.Form.milli.value = "";
+	for (var i = 0; i < 3; i++)
+	{
+		if (document.Form.elements[i].selectedIndex < 0)
+		{
+			alert("You must enter your birthday...");
+			document.Form.month.focus();
+			return;
+		}
+	}
+	var mm = document.Form.month.selectedIndex + 1;
+	var dd = document.Form.day.selectedIndex + 1;
+	var yy = maxyear - document.Form.year.selectedIndex;
+	var hr = document.Form.hrs.value * 1;
+	var days = new Date();
+	var gdate = days.getDate();
+	var gmonth = days.getMonth() + 1;
+	var gyear = days.getYear();
+	var ghour = days.getHours();
+	var gmin = days.getMinutes();
+	var gsec = days.getSeconds();
+	var gmil = days.getMilliseconds();
+	if (gyear < yy)
+	{
+		alert("No future birthdates, please...");
+		document.Form.year.focus();
+		return;
+	}
+	else if (gyear == yy)
+	{
+		if (gmonth < mm)
+		{
+			alert("No future birthdates, please...");
+			document.Form.month.focus();
+			return;
+		}
+		else if (gmonth == mm)
+		{
+			if (gdate < dd)
+			{
+				alert("No future birthdates, please...");
+				document.Form.day.focus();
+				return;
+			}
+		}
+	}
+	if (mm == 2)
+	{
+		if (dd > 29)
+		{
+			alert("February doesn't have that many days...");
+			document.Form.day.focus();
+			return;
+		}
+		else if((dd > 28) && (!lyear(yy)))
+		{
+			alert("Can't have 29 days if it isn't a leap year...");
+			document.Form.day.focus();
+			return;
+		}
+	}
+	else if (dd > monthdays[mm - 1])
+	{
+		alert("Invalid number of days...");
+		document.Form.day.focus();
+		return;
+	}
+	var age = gyear - yy;
+	// if your birthday hasn't happened yet, subtract 1
+	if (mm > gmonth ||(mm == gmonth && dd > gdate))
+	{
+		age -= 1;
+	}
+	document.Form.age.value = "You are " + age + " years old and you were born on a ";
+	// months
+	var m = age * 12;
+	if (mm > gmonth ||(mm == gmonth && dd > gdate))
+	{
+		m += 12 - (mm - gmonth);
+	}
+	else if (mm < gmonth)
+	{
+		m += (gmonth - mm);
+	}
+	if (dd > gdate)
+	{
+		m -= 1;
+	}
+	document.Form.months.value = m + " months";
+	// calculate total days
+	var totdays = age * 365;	// total years
+	// add in leap years
+	if (mm < 3 && leapyear(yy) == true)
+	{
+	 	totdays += 1;
+	}
+	for (var i = yy + 1; i < gyear; i++)
+	{
+		if (leapyear(i))
+		{
+			totdays += 1;
+		}
+	}
+	if (gmonth > 2 && leapyear(gyear) == true)
+	{
+		totdays += 1;
+	}
+	// days since your last birthday/days till next birthday
+	var subtr = 0;
+	if (mm > gmonth ||(mm == gmonth && dd > gdate)) // future
+	{
+		if (mm > gmonth)
+		{
+			subtr += monthdays[gmonth-1] - gdate; // days left in month
+			subtr += dd;     // days in your birth month
+		}
+		else
+		{
+			subtr += dd - gdate; // days left till birthday
+		}
+		for (var i = gmonth + 1; i < mm; i++)
+		{
+			subtr += monthdays[i-1];
+		}
+		totdays += (365 - subtr);
+	}
+	else
+	{
+		if (gmonth > mm)
+		{
+			subtr += monthdays[mm - 1] - dd;
+			subtr += gdate;
+			for (var i = mm + 1; i < gmonth; i++)
+			{
+				subtr += monthdays[i-1];
+			}
+		}
+		else
+		{
+			subtr += gdate - dd;
+		}
+		totdays += subtr;
+		subtr = 365 - subtr;
+	}
+	if (subtr == 365) alert("Happy Birthday!");
+	document.Form.answer.value = totdays + " days ";
+	var w = totdays / 7;
+	w = "" + w;
+	var spl = w.split(".");
+	document.Form.weeks.value = spl[0] + " weeks";
+	var minutestoday = ghour * 60 + gmin;
+	var mins = totdays * 1440;
+	if (minutestoday > hr)
+	{
+		mins += minutestoday - hr;
+	}
+	else
+	{
+		mins -= hr - minutestoday;
+	}
+	var h = mins/60;
+	h = "" + h;
+	spl = h.split(".");
+	document.Form.hours.value = spl[0] + " hours";
+	document.Form.min.value = mins + " minutes";
+	mins = (mins * 60) + gsec;
+	document.Form.sec.value = mins + " seconds";
+	mins = (mins * 1000) + gmil;
+	document.Form.milli.value = mins + " milliseconds";
+	document.Form.age.value += weekdays[totdays % 7] + "!";
+	document.Form.bday.value = "Your next birthday will be in "
+								+ subtr + " days!";
+	setTimeout("run()", 1);
+}
+</SCRIPT>
+<CENTER>
+<FORM name=Form>
+Birth Month:
+<select size=1 name="month">
+<script language="javascript">
+	for	(var i = 1; i < 13; i++)
+	{
+		document.write("<option>" + i + "</option>");
+	}
+</script>
+</select>
+Day:
+<select size=1 name="day">
+<script language="javascript">
+	for	(var i = 1; i < 32; i++)
+	{
+		document.write("<option>" + i + "</option>");
+	}
+</script>
+</select>
+Year:
+<select size=1 name="year">
+<script language="javascript">
+	for	(var i = maxyear; i > 1910; i--)
+	{
+		document.write("<option>" + i + "</option>");
+	}
+</script>
+</select>
+Time:
+<select size=1 name="hrs">
+<script language="javascript">
+	for	(var i = 0; i < 24; i++)
+	{
+		for (var j = 0; j < 60; j+=15)
+		{
+			var val = i*60 + j;
+			var h = i < 10 ? "0" + i : i;
+			var m = j < 10 ? "0" + j : j;
+			var dsp = h + ":" + m;
+			document.write("<option value='" + val + "'>");
+			document.write(dsp + "</option>");
+		}
+	}
+</script>
+</select>
+<INPUT onclick=run() type=button value=Calculate name=start>
+<BR><BR>
+<INPUT size=55 value="Your age will be displayed here." name=age>
+<BR><BR>You have been living for: <BR>
+<TABLE border=0>
+  <TR>
+    <TD>In months:</TD>
+    <TD><INPUT size=30 name=months></TD></TR>
+  <TR>
+    <TD>In weeks:</TD>
+    <TD><INPUT size=30 name=weeks></TD></TR>
+  <TR>
+    <TD>In days:</TD>
+    <TD><INPUT size=30 name=answer></TD></TR>
+  <TR>
+    <TD>In hours:</TD>
+    <TD><INPUT size=30 name=hours></TD></TR>
+  <TR>
+    <TD>In minutes:</TD>
+    <TD><INPUT size=30 name=min></TD></TR>
+  <TR>
+    <TD>In seconds:</TD>
+    <TD><INPUT size=30 name=sec></TD></TR>
+  <TR>
+    <TD>In milliseconds:</TD>
+    <TD><INPUT size=30 name=milli></TD></TR>
+</TABLE>
+<br>
+<INPUT size=40 value="Time till next birthday will be displayed here."
+	name=bday>
+</FORM>
+<p><input type="button" onClick="javascript:history.go(-1)"
+ value="Back to ToMar Games">
+</p>
+</center>
+</body>
+</html>

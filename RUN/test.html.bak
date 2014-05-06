@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+<head>
+	<title>Runes</title>
+	<LINK REL="StyleSheet" HREF="../styles.css?<?php echo rand(); ?>"  TYPE="text/css" TITLE="ToMar Style" MEDIA="screen">
+</head>
+<body bgcolor="#000000">
+<table border=0 align="center"><tr>	
+	<td width="10%"><img src="RUN.jpg" height="100" width="100"></td>
+	<td  width="80%" class="biggest">Runes<br><span class="magenta10">by ToMarGames</span><br></td>
+	<td width="10%"><img src="RUN.jpg" height="100" width="100"></td></tr>
+</table>
+<table border="0" align="center"><tr>
+<td width="30%" align="left">
+<table border=2>
+</table>
+<br><br>
+</td>
+<td width="1">&nbsp; </td>		
+<td>		
+<div id="app"> 
+<applet name='applet' code='RUN.class' width='800' height='600'>
+	<param name='id' value=''>
+	<param name='nm' value=''>
+	<param name='site' value=''>
+	<param name='WIDTH' value='800'>
+	<param name='HEIGHT value='600'>
+</applet>
+</div>
+</td></tr></table>
+<br>About the Game
+	<ul class=green10>
+	<li class="text10">Click on a square to place the Rune.</li>
+	<li class="text10">Place the Rune adjacent to a rune that matches in type or color.</li>
+	<li class="text10">When a row or column is completed, you get a bonus and the squares turn gray.</li>
+	<li class="text10">Complete the level by turning all the squares gray.</li>
+	<li class="text10">Click on the WasteCan to discard a Rune.</li>
+	<li class="text10">A bomb will erase a Rune.</li>
+	<li class="text10">The WasteCan will hold up to 3 Runes; if you try to discard when it's full, the game is over.</li>
+		<li>Rather than a high score list, ToMarGames uses a ranking system based on all scores for this game.</li>
+		<li>You move up through the ranks by earning stars.</li>
+		<li>Each game, your score will be measured against the mean score of all games played so far.</li>
+		<li>To earn a star, you must score higher than the mean.</li>
+		<li>If you score more than the mean plus standard deviation, you can earn multiple stars.</li>
+		<li>If you score less than the mean minus standard deviation, you will lose a star.</li>
+		<li>When you reach 5 stars, you will advance to the next rank, and come into the rank with two stars.</li>
+		<li>If you have no stars, and you lose a star, you will descend to the rank below, and come in with two stars.</li>
+	</ul>
+</body>
+</html>
+

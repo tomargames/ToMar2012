@@ -1,0 +1,55 @@
+body 
+{	
+	 background: olive; 
+	 font-family: verdana;
+	 font-size: small;
+	 text: navy
+}
+h1, h2, h3, h4, h5, h6 
+{	
+	font-family: verdana; 
+}
+h1 
+{  
+   font-size: x-large; 
+   color: navy;
+   font-weight: normal; 
+   text-align: center 
+}
+h2 
+{ 
+   font-size: small; 
+   color: yellow; 
+   font-weight: normal; 
+   text-align: center
+}
+h3
+{
+   font-size: large;
+   color: navy;
+   font-weight: bold; 
+   text-align: center 
+}      
+h4
+{
+   font-size: medium;
+   color: navy;
+   font-weight: normal; 
+   text-align: center 
+}      
+select
+{
+   background: yellow;
+   color: navy	  	   
+}
+p
+{
+ 	text-align: center
+}
+table
+{
+  	font-size: medium;
+	color: black;
+    font-weight: normal; 
+	border: 0
+}	 

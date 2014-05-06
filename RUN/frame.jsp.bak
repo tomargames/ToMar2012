@@ -1,0 +1,19 @@
+<html>
+<head>
+	<title>ToMar Games - Runes</title>
+	<script language="javascript" SRC="../tmInclude/argParse.js"></script>
+	<script language="javascript">
+		argData=getSearchAsArray();
+	</script>
+</head>
+<frameset cols="750,*" border=0 frameborder=0>
+<frame src="runes.html" name="app"
+    noresize scrolling=auto>
+<frame name="jsp"
+     src="runes.jsp" scrolling=auto>
+</frameset>
+<noframes>
+Sorry, if your browser doesn't support frames, this game won't
+work.
+</noframes>
+</html>

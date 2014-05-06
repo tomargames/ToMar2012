@@ -1,0 +1,159 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head><title>Intelligence Test</title>
+	<LINK REL=StyleSheet
+		HREF="iqtest.css"
+		TYPE="text/css"
+		TITLE="iq Style"
+		MEDIA="screen">
+</head>
+<body>
+<script language="javascript">
+var numQ = 11;
+var question = new Array
+(  "Do they have a 4th of July in England?",
+  "How many birthdays does the average man have?",
+  "Some months have 31 days; how many have 28?",
+  "How many outs are there in an inning?",
+  "Is it legal for a man in California to marry his widow's sister?",
+  "Divide 30 by 1/2 and add 10. What is the answer?",
+  "If there are 3 apples and you take away 2, how many do you have?",
+  "A doctor gives you 3 pills, telling you to take one every half hour. How many minutes would the pills last?",
+  "A farmer has 17 sheep, and all but 9 die. How many are left?",
+  "How many animals of each sex did Moses take on the Ark?",
+  "How many two-cent stamps are there in a dozen?");
+// gets arguments
+var uResp = getSearchAsArray();
+document.write("<h1>ToMar IQ Test</h1>");
+if (uResp.length < 2)
+{
+   var selstring = new Array( "YesNo ","  1  2  3  5>10",
+	"  1  2  4  6  9 12", "  2  3  6  8", "YesNo ",
+	" 10 25 35 70 90", "  1  2  3", " 20 40 60 90",
+	"  5  6  7  8  9", "  3  2  1  0", "  1  3  6  9 12");
+   part1();
+}
+else
+{
+   var answer = new Array( 1, 1, 6, 3, 2, 4, 2, 3, 5, 4, 5);
+   var explan = new Array
+   (   "Yes, it just isn't a holiday there.",
+    	"Just one!",
+    	"12 - they all have 28 days at least.",
+    	"6 - Three outs for each team makes 6 per inning.",
+    	"No, since he'd be dead!",
+    	"30 divided by 1/2 = 60, plus 10 makes 70.",
+    	"You have two - you took them, remember?",
+    	"60 - start with the first pill, then 30 minutes later take the second, then 30 minutes later take the third, and the pills will be gone.",
+    	"Nine are left; the rest died.",
+    	"None - Moses wasn't on the Ark.",
+    	"12 - there are 12 stamps in a dozen, regardless of their value.");
+   part2();
+}
+function part1()
+{
+ 	document.write("<h2>How smart are you? Chances are, this test won't tell you, but it's still fun!</h2>");
+	document.write('<form name="Form" action="iqtest.html">');
+	document.write("<table>");
+	for (i = 0; i < numQ; i++)
+	{
+	 	document.write("<tr><td>" + (i + 1) + ".</td><td>" +
+					  question[i] +
+					  "</td><td><select name='u" + i +
+					  "'><option value='0' selected>I don't know</option>");
+		var l = selstring[i].length;
+		for (j = 0; j < l/3; j++)
+		{
+		 	var ss = selstring[i].substring(j * 3, (j * 3) + 3);
+			document.write("<option value='" + (j + 1) + "'>" + ss + "</option>");
+		}
+	 	document.write("</td></tr>");
+	}
+	document.writeln('</table><p><input type="submit" ' +
+	 'value="Click to see how you did!"></p>');
+}
+function part2()
+{
+ 	document.write("<h2>Okay, let's check your answers!</h2>");
+	document.write("<table border=1>");
+	var score = 0;
+	for (i = 0; i < numQ; i++)
+	{
+        if (answer[i] == uResp[i])
+		{
+		   score++;
+		}
+		else
+		{
+	 		document.write("<tr><td>" + question[i] + "</td><td>" +
+				 explan[i] + "</td></tr>");
+		}
+	}
+	document.write("</table>");
+	document.write("<h3>Your score is " + score + "!</h3>");
+	if (score == 11)
+	{
+	   document.write("<h4>Congratulations!</h4>");
+	   document.write("<h4>You should be really proud of yourself!</h4>");
+	}
+	else if (score == 10)
+	{
+	   document.write("<h4>Congratulations!</h4>");
+	   document.write("<h4>You almost got them all!</h4>");
+	}
+	else if (score > 7)
+	{
+	   document.write("<h4>You missed a few, but you did really well!</h4>");
+	}
+	else if (score > 4)
+	{
+	   document.write("<h4>I guess we caught you napping on a few of them...</h4>");
+	}
+	else if (score > 1)
+	{
+	   document.write("<h4>Guess this wasn't your day...</h4>");
+	}
+    else
+	{
+	   document.write("<h4>No comment...</h4>");
+	}
+    document.writeln('<p>');
+	document.writeln('<br>');
+    document.writeln('<input type="button" onClick="javascript:history.go(-2)"'
+ 		+ ' value="Back to ToMar Games">');
+}
+function getSearchAsArray()
+{
+     var minNav3 = (navigator.appName == "Netscape" &&
+	 parseInt(navigator.appVersion) >= 3);
+     var minIE4 = (navigator.appName.indexOf("Microsoft") >= 0 &&
+	 parseInt(navigator.appVersion) >= 4);
+     var minDOM = minNav3 || minIE4; // baseline DOM required for this
+     var results = new Array();
+     if (minDOM)
+	 {
+          var input = unescape(location.search.substring(1))
+          if (input)
+		  {
+               var srchArray = input.split("&");
+               var tempArray = new Array();
+               for (i = 0; i < srchArray.length; i++)
+			   {
+                    tempArray = srchArray[i].split("=");
+                    results[i] = tempArray[1];
+               }
+          }
+     }
+     return results;
+}
+
+</script>
+</body></html>
+
+
+
+
+
+
+
+

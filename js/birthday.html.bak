@@ -1,0 +1,219 @@
+<html>
+<head>
+<title>ToMar Games: Birthday Number</title>
+<script language="javascript">
+function calc()
+{	
+	var mm = document.test.month.selectedIndex + 1;
+	var dd = document.test.day.selectedIndex + 1;
+	var yyyy = 2000 - document.test.year.selectedIndex;
+	var birthday = mm + "/" + dd + "/" + yyyy;
+	var n = parseInt(mm) + parseInt(dd) + parseInt(yyyy);
+    	while	(n > 9)
+	{
+		numchar = "" + n;
+		n = 0;
+		for	(var i = 0; i < numchar.length; i++)
+		{
+			n += parseInt(numchar.substring(i,i+1));
+		}
+	}	
+	alert("For your birthday, " + birthday + ", your Birthday Number is #"
+		 + n + ". Read below to see what that means...");
+}
+</script>
+</head>
+<body bgcolor="#FFCCBB" text="#009999">
+<p align="center"><font size="6" face="ms sans serif">Your Birthday Number</font></p>
+<p align="left"><font size="4" face="ms sans serif" color="#000080">
+Your birthdate describes who you are, what you are good at, and what your inborn abilities are.
+It also points to what you have to learn, and the challenges you are facing. 
+<br><br>
+Your birthday number
+is calculated by adding the numbers of your birthday over and over again, until only one digit is
+left. For example, if you were born on February 15, 1956, it would be 2 + 15 + 1956 = 1973, then
+1 + 9 + 7 + 3 = 20, then 2 + 0 = 2. So your birthday number would be 2.
+<br><br>
+Your birthday number will never prevent you from being anything you want, it will just color
+your choices differently.
+<br><br>
+<form method="post" name="test">
+We'll do the math for you if you enter your birthdate below.
+<br><br>
+Month:
+<select size=1 name="month">
+<script language="javascript">
+	for	(var i = 1; i < 13; i++)
+	{
+		document.write("<option>" + i + "</option>");
+	}
+</script>
+</select>
+Day:
+<select size=1 name="day">
+<script language="javascript">
+	for	(var i = 1; i < 32; i++)
+	{
+		document.write("<option>" + i + "</option>");
+	}
+</script>
+</select>
+Year:
+<select size=1 name="year">
+<script language="javascript">
+	for	(var i = 2000; i > 1910; i--)
+	{
+		document.write("<option>" + i + "</option>");
+	}
+</script>
+</select>
+<br><br>
+<input name="x" type="button" value="Calculate Birthday Number" onClick="calc()">
+</form>
+
+<p align="center"><font size="5" face="ms sans serif" color="#000080">
+What Your Birthday Number Means
+</font></p>
+<p align="left"><font size="3" face="ms sans serif" color="#000080">
+<b>#1 - The Originator</b><br>
+You are an original. Coming up with new ideas and executing them
+is natural to you. Having things your own way also seems natural, but
+may get you
+labeled as stubborn and arrogant. You are extremely honest, so
+you may have to work extra hard on diplomacy skills. You like to take the
+initiative and are probably a leader or a boss, as you like to be the
+best. Being self-employed is a good choice for you. Lesson to learn: Others' 
+ideas might be just as good or better than your own, so stay open-minded.
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#002020">
+<b>Famous #1's:</b><br>
+Tom Hanks, Robert Redford, Hulk Hogan, Carol Burnett, Wynonna Judd,
+Nancy Reagan, Raquel Welch
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#000080">
+<b>#2 - The Peacemaker</b><br>
+You are a born diplomat. You are aware of others' needs and moods,
+and often think of others before yourself. Naturally analytical and 
+intuitive, you don't like to be alone. Friendship and companionship
+are very important to you, and can lead you to be successful in life, 
+but you would rather be alone than in an uncomfortable relationship. 
+Being naturally shy, you should learn to boost your self-esteem and 
+express yourself freely.  Don't put things off; seize the moment.
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#002020">
+<b>Famous #2's:</b><br>
+President Bill Clinton, Madonna, Whoopie Goldberg, Thomas Edison,
+Wofgang Amadeus Mozart
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#000080">
+<b>#3 - The Life of the Party</b><br>
+You are an idealist. You are very creative, social, charming, romantic,
+ and easygoing. You start many things, but don't always see them through.
+You like others to be happy, and will go to great lengths to keep them
+that way. You are very popular and idealistic. You may need to learn to
+see the world from a more realistic point of view.
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#002020">
+<b>Famous #3's:</b><br>
+Alan Alda, Ann Landers, Bill Cosby, Melanie Griffith, Salvador Dali,
+Jodie Foster  
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#000080">
+<b>#4 - The Conservative</b><br>
+You are sensible and traditional. You like order and routine. You only
+act when you fully understand what you are expected to do. You like 
+getting your hands dirty and working hard. You are attracted to the
+outdoors, and you feel an affinity with nature. You are prepared to 
+wait for the things you want; you could be considered to be stubborn 
+and persistent. One thing you could work on is your flexibility (or
+lack of it), and you should always remember to be nice to yourself. 
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#002020">
+<b>Famous #4's:</b><br>
+Neil Diamond, Margaret Thatcher, Arnold Schwarzenegger, Tina Turner,
+Paul Hogan, Oprah Winfrey
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#000080">
+<b>#5 - The Non-Conformist</b><br>
+You are an explorer. Your natural curiosity, risk taking, and
+enthusiasm often land you in hot water. You need diversity; you don't
+like to be stuck in a rut. The whole world is your school, and you see
+a learning possibility in every situation. Your questions never stop. 
+You should learn to look before you take action, and make sure you have
+all the facts before you jump to conclusions.
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#002020">
+<b>Famous #5's:</b><br>
+Abraham Lincoln, Charlotte Bronte, Jessica Walter, Vincent van Gogh,
+Bette Midler, Helen Keller
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#000080">
+<b>#6 - The Romantic</b><br>
+You are idealistic, and you need to feel useful in order to be happy.
+A strong family connection is important to you. Your emotions often
+influence your decisions. You have a strong urge to take care of and 
+help others. You are very loyal; you take friendship very seriously.
+You like art and/or music, and would probably make a good teacher.
+You need to work on your ability to distinguish between the things you
+can and cannot change. 
+<p align="left"><font size="3" face="ms sans serif" color="#002020">
+<b>Famous #6's:</b><br>
+Albert Einstein, Jane Seymour, John Denver, Meryl Streep, Christopher
+Columbus, Goldie Hawn   
+<br><br>
+
+<p align="left"><font size="3" face="ms sans serif" color="#000080">
+<b>#7 - The Intellectual</b><br>
+You are a searcher. Always probing for hidden information, you find it
+difficult to accept things at face value. Emotions don't sway your
+decisions. Questioning everything in life, you don't like to be 
+questioned yourself. You're never off to a fast start; your motto is 
+'slow and steady wins the race'. You come across as being very
+knowledgeable and somewhat of a philosopher, and maybe somewhat of a
+loner. You are technically inclined, and you love to uncover secrets. 
+That combination makes you a great researcher. Your only problem is
+that you live in your own world. You need to learn what is acceptable
+in the world at large.
+<p align="left"><font size="3" face="ms sans serif" color="#002020">
+<b>Famous #7's:</b><br>
+William Shakespeare, Lucille Ball, Michael Jackson, Joan Baez, Princess
+Diana
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#000080">
+<b>#8 - The Big Shot</b><br>
+You are a problem solver. You are professional, blunt, and to the point.
+You have good judgement and are very decisive. You have grandiose
+plans, and you like to live the good life. You are a 'take-charge'  
+person. You view people objectively, but you let them know in no uncertain
+terms that you are the boss. The thing you need to work on is basing
+your decisions on your own needs rather than the needs of others.  
+<p align="left"><font size="3" face="ms sans serif" color="#002020">
+<b>Famous #8's:</b><br>
+Barbra Streisand, George Harrison, Jane Fonda, Pablo Picasso, Aretha
+Franklin, Nostradamus  
+<br><br>
+<p align="left"><font size="3" face="ms sans serif" color="#000080">
+<b>#9 - The Performer</b><br>
+You are a natural entertainer. You are very caring and generous, giving
+away your last dollar to help someone. With your charm, you have no
+problem making friends; no one is a stranger to you. You have so many
+different personalities that people around you have a hard time
+understanding you sometimes. You are like a chamelion, ever changing
+and blending in. You have tremendous luck, but can also suffer from 
+extremes in fortune and mood. To be successful, you will need to 
+build a loving foundation.
+<p align="left"><font size="3" face="ms sans serif" color="#002020">
+<b>Famous #9's:</b><br>
+Albert Schweitzer, Shirley MacLaine, Harrison Ford, Gloria Steinem, 
+Jimmy Carter, Elvis Presley
+<br><br>
+
+
+
+<p align="center"><font size="1" face="ms sans serif" color="#000080">
+Hey, if you liked this, send us an email and let us know. You can email us from our main menu, 
+available via the link below. Thanks for visiting our site.
+</font></p>
+<p align="center"><a href="index.html">Back to ToMar Games</a></p>
+</body>
+</html>

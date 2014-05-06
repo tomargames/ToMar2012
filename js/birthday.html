@@ -1,0 +1,76 @@
+<html>
+<head>
+<title>ToMar Games: Birthday Number</title>
+<script language="javascript">
+function calc()
+{
+	var mm = document.test.month.selectedIndex + 1;
+	var dd = document.test.day.selectedIndex + 1;
+	var yyyy = 2000 - document.test.year.selectedIndex;
+	var birthday = mm + "/" + dd + "/" + yyyy;
+	var n = parseInt(mm) + parseInt(dd) + parseInt(yyyy);
+    	while	(n > 9)
+	{
+		numchar = "" + n;
+		n = 0;
+		for	(var i = 0; i < numchar.length; i++)
+		{
+			n += parseInt(numchar.substring(i,i+1));
+		}
+	}
+	alert("For your birthday, " + birthday + ", your Birthday Number is #"
+		 + n + ". Here's what that means...");
+	window.location = "birthday2.html#a" + n;	 
+}
+</script>
+</head>
+<body bgcolor="#FFCCBB" text="#009999">
+<p align="center"><font size="6" face="ms sans serif">Your Birthday Number</font></p>
+<p align="left"><font size="4" face="ms sans serif" color="#000080">
+Your birthdate describes who you are, what you are good at, and what your inborn abilities are.
+It also points to what you have to learn, and the challenges you are facing.
+<br><br>
+Your birthday number
+is calculated by adding the numbers of your birthday over and over again, until only one digit is
+left. For example, if you were born on February 15, 1956, it would be 2 + 15 + 1956 = 1973, then
+1 + 9 + 7 + 3 = 20, then 2 + 0 = 2. So your birthday number would be 2.
+<br><br>
+Your birthday number will never prevent you from being anything you want, it will just color
+your choices differently.
+<br><br>
+<form method="post" name="test">
+We'll do the math for you if you enter your birthdate below.
+<br><br>
+Month:
+<select size=1 name="month">
+<script language="javascript">
+	for	(var i = 1; i < 13; i++)
+	{
+		document.write("<option>" + i + "</option>");
+	}
+</script>
+</select>
+Day:
+<select size=1 name="day">
+<script language="javascript">
+	for	(var i = 1; i < 32; i++)
+	{
+		document.write("<option>" + i + "</option>");
+	}
+</script>
+</select>
+Year:
+<select size=1 name="year">
+<script language="javascript">
+	for	(var i = 2000; i > 1910; i--)
+	{
+		document.write("<option>" + i + "</option>");
+	}
+</script>
+</select>
+<br><br>
+<input name="x" type="button" value="Calculate Birthday Number" onClick="calc()">
+</form>
+
+</body>
+</html>

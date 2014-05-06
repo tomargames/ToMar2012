@@ -1,0 +1,152 @@
+<?php
+require '../Scoring/Player.php';
+require '../Scoring/Game.php';
+require '../Scoring/tmUtils.php';
+global $id;
+global $site;
+global $em;
+global $nm;
+
+tmMode();
+if ($id == null)
+{
+	echo "<script> window.location = '".$site."SDF/login.php?login'; </script>";
+}	
+// Step2: read player file and identify player
+$players = PlayerFromXML();
+$player = thisPlayer($id, $nm, $players);
+// Step3: read game file and build stats coming in
+global $mean;
+global $highest;
+global $std;
+$games = GameFromXML();
+$stats = "Highest: ".$highest."<br>Average: ".$mean."<br>StdDev: ".$std."<br>";
+// Step4: if there's a score coming in, process it
+$sc = $_GET["score"];
+$message = "NONE";
+if (is_finite($sc) && $sc > 0)
+{
+	$tsp = $_GET["tsp"];
+	$award = CalculateAward($sc, $tsp.$id, $games);
+	global $blurb;
+	$stats = "Your Score: ".$sc."<br>Award: ".$award."<br>".$stats;
+	$temp = $player->processAward($award,$tsp);
+	$message = $sc." points. ".$blurb[$award + 1].$temp;
+	$players[trim($id)] = $player;
+	writePlayerXML($players);
+}
+?>	
+<!doctype html>
+<html>
+<head>
+	<title>Same Difference</title>
+	<LINK REL="StyleSheet" HREF="../styles.css?<?php echo rand(); ?>"  TYPE="text/css" TITLE="ToMar Style" MEDIA="screen">
+</head>
+<body>
+<table border=0 align="center"><tr>	
+	<td width="10%"><img src="SDF.jpg" height="100" width="100"></td>
+	<td  width="80%" class="biggest">Same Difference<br><span class="magenta10">by ToMarGames</span><br></td>
+	<td width="10%"><img src="SDF.jpg" height="100" width="100"></td></tr>
+</table>
+<table border="0" align="center"><tr>
+<td width="20%" align="left">
+<table border=2>
+<?php 
+	$pr = "";
+	for ($i = 0; $i < $player->getStars(); $i++)
+	{
+		$pr = $pr."* ";
+	}		
+	echo "<tr><td class=green12>Player</td><td class=big>".$nm."</td></tr>";		
+	echo "<tr><td class=green12>Rank</td><td class=big>".$player->getLevel()."</td></tr>";		
+	echo "<tr><td class=green12>Progress</td><td class=big>".$pr."</td></tr>";
+	echo "<tr><td class=magenta8 colspan=2>".$stats."</td></tr>";
+?>
+</table>
+<br><br>
+<form action='<?php echo $site; ?>' method='get'>			
+<input type="hidden" name='id' value='<?php echo $id; ?>'>
+<input type="hidden" name='nm' value='<?php echo $nm; ?>'>
+<input type="submit" value="ToMarGames Menu"><br><br>	
+</form>
+<table border=1>
+	<tr><td colspan="3" class="magentah">Players</td></tr>
+	<tr><td class="greenh">Name</td><td class="greenh">Rank</td><td class="greenh">Games</td></tr>
+<?php
+	foreach ($players as $p)
+	{
+		echo "<tr><td class='green10'>".$p->getName()."</td><td class='green10num'>".$p->getLevel()."</td><td class='green10num'>".$p->getGames()."</td></tr>";
+	}	
+?>	
+</table>	
+</td>
+<td width="5%">&nbsp; </td>		
+<td>		
+<div id="app"> 
+<applet name="applet" code="SDF.class" width="1200" height="500">
+<?php 
+	echo "<param name='id' value='".$id."'>";
+	echo "<param name='nm' value='".$nm."'>";
+	echo "<param name='site' value='".$site."'>";
+	if ("NONE" != $message)
+	{
+		echo "<param name='message' value='".$message."'>";
+	}	
+?>
+</applet>
+</div>
+</td></tr></table>
+<br>About the Game
+<ul valign="top">
+	<li class="text10">Find sets of 3 cards where each characteristic is the same across all 3 cards,
+		or different on each card.</li>
+	<li class="text10">For example, if one of the cards is black, the other two must be black, or the
+		other two must be red and blue.</li>
+	<li class="text10">The same holds true for shape, shading, and number. If two of the selected
+		cards match on a characteristic, then the third card must match as well, or
+		all 3 must be different for that characteristic.</li>
+	<li class="text10">Hints cost 10 points each.</li>
+	<li class="text10">Sorts cost 5 points each.</li>
+	<li class="text10">Do as much as you can in three minutes.</li>
+	<li class="text10">If more or less than 12 cards are showing, a set will be worth more points.</li>
+	<li class="text10">Sets also become worth more points if more than one characteristic is different.</li>
+		<li>Rather than a high score list, ToMarGames uses a ranking system based on all scores for this game.</li>
+		<li>You move up through the ranks by earning stars.</li>
+		<li>Each game, your score will be measured against the mean score of all games played so far.</li>
+		<li>To earn a star, you must score higher than the mean.</li>
+		<li>If you score more than the mean plus standard deviation, you can earn multiple stars.</li>
+		<li>If you score less than the mean minus standard deviation, you will lose a star.</li>
+		<li>When you reach 5 stars, you will advance to the next rank, and come into the rank with two stars.</li>
+		<li>If you have no stars, and you lose a star, you will descend to the rank below, and come in with two stars.</li>
+</ul>
+	<table width="100%" valign="top">
+	<tr valign="top">
+	<td class="darkred8" width="25%">
+		<b>Colors</b><br>
+			Red<br>
+			Blue<br>
+			Black
+	</td>
+	<td class="darkred8" width="25%">
+		<b>Shapes</b><br>
+			Circles<br>
+			Squares<br>
+			Triangles
+	</td>
+	<td class="darkred8" width="25%">
+		<b>Shading</b><br>
+			Solid<br>
+			Empty<br>
+			Dot in the middle
+	</td>
+	<td class="darkred8" width="25%">
+		<b>Number of shapes</b><br>
+			1<br>
+			2<br>
+			3
+	</td>
+	</tr>
+
+</table>
+</body>
+</html>

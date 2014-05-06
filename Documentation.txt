@@ -1,0 +1,20 @@
+ToMar2012 Design Document
+
+ToMar2012
+	Game.xml and php --> ID, name, description
+	Player.xml and php --> ID, name, email, lastLogin, lastIP, visitCount
+	login.php --> log in with Google, capture ID, name, email, pass to index.php
+	index.php 
+		--> if not logged in, go to login.php
+		--> read parameters for ID, name, email, get IP address and update Player.xml
+		--> create links for games that will pass id and name
+GAME
+	GAME.jpg
+	Players.xml --> persistent high score file --> ID, name, level, stars, gameCount
+	Data.xml --> raw data from which levels are computed --> score, count
+	index.php
+		--> if not logged in, go to login.php
+		--> process data --> mean and standard deviation
+		--> process score, if there, against mean and sd, and determine award
+		--> look up player on the player table, get level and stars and apply award
+					

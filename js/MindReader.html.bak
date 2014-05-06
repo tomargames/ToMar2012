@@ -1,0 +1,185 @@
+<html>
+<head>
+	<title>ToMar Mind Reader</title>
+	<LINK REL=StyleSheet 
+		HREF="MindReader.css" 
+		TYPE="text/css" 
+		TITLE="MindReader Style" 
+		MEDIA="screen">
+	<script language="javascript" SRC="argParse.js">
+	</script>
+</head>
+<body>
+<h1>ToMar Mind Reader</h1>
+<script language="javascript">
+   argData=getSearchAsArray();
+   var part = 0;
+   var row = 0;
+   var poss = "";
+   if  (!argData["a"])
+   {
+   	   part = 1;
+	   inStr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	   inPos = "";
+	   poss = "";
+	   row = 0;
+   }
+   else
+   {
+   	   part = parseInt(argData["a"]) + 1;
+   	   row = argData["r1"];
+	   inStr = argData["b"];
+       inPos = argData["c"]; 
+	   poss = inStr.substring((row - 1) * 7, row * 7);
+	   if (inPos > "")
+	   {
+	   	 //inPos are the ones that were possible after last sel
+		 //poss is the row you just selected (7)
+		 //if it's in poss AND inPos, then it goes in newPoss		 
+	     var newPoss = "";
+		 len = inPos.length; 
+		 for (i = 0; i < 7; i++)
+		 {
+		  	 ich = poss.substring( i, i + 1);
+		  	 for (j = 0; j < len; j++)
+			 {
+			  	 jch = inPos.substring( j, j + 1);
+				 if (ich == jch)
+				 {
+				  	newPoss = newPoss + ich;
+				 } 	
+			 }
+		 }	  	  
+	   	 poss = newPoss;
+		 if (poss.length == 0)
+		 {
+		  	alert("I suspect you may be trying to trick me by changing letters. Results may be unpredictable.");
+		 } 
+		 else if (poss.length == 1)
+		 {
+		  	 part = 9;
+			 document.write("<h2>I got it!!!!</h2>");
+			 document.writeln('<h4>Your letter is ' + 
+			 							poss + '.</h4>');
+             document.writeln('<br>');
+			 document.writeln('<p>');
+	  		 document.writeln('<a href="MindReader.html">Do it again</a>');
+			 document.writeln('<br><br>');
+	  		 document.writeln('<a href="index.html">ToMar Games</a>');
+		 } 	  	
+	  } 
+   }  
+// alert("part = " + part + " row = " + row +
+//         " row = " + inStr.substring((row - 1) * 7, row * 7) +
+//         " inPoss = " + inPos +
+//         " poss = " + poss);
+   if (part < 9)
+   {
+      var newStr = "";
+      document.write("<h2>Part " + part + "</h2>");
+      li1 = "Look at the letters below.";
+      li2 = "letter and concentrate on it";
+      li3 = "Click the button of the row it's in";
+      li4 = "Click 'Scramble' to continue...";
+      if (part == 1)
+      {
+    	 s1 = "I'll read your mind now. Here are your instructions:";
+    	 li2 = "Pick a " + li2 + ".";
+    	 li3 = li3 + ".";
+      }
+      else if (part == 2)
+      {	
+    	 s1 = "I'm starting to get a feeling about it. Let's try again.";
+    	 li2 = "Find your " + li2 + " again.";
+    	 li3 = li3 + " now.";
+   	  }	
+   	  else 
+   	  {
+   	 	 s1 = "I'm really close now - try one more time.";
+   		 li2 = "Find your " + li2 + " again.";
+   		 li3 = li3 + " once more.";
+   	  }	
+      document.writeln('<form name="Form" action="MindReader.html">');
+   	  document.writeln('<input type="hidden" ' +
+   	  				 'name="a" size="1" ' +
+   					 'value="' + part + '">');
+   	  document.writeln('<h3>' + s1 + '</h3>');
+   	  document.writeln('<ol>');
+   	  document.writeln('<li>' + li1 + '</li>');
+   	  document.writeln('<li>' + li2 + '</li>');
+   	  document.writeln('<li>' + li3 + '</li>');
+ 	  document.writeln('<li>' + li4 + '</li>');
+      document.writeln('</ol>');
+   	  document.writeln('<p>');
+   	  document.writeln('<table>');
+   	  var len, rnd, strChar;
+	  var charOrder = " 1 4 710131619 2 5 811141720 0 3 6 9121518";
+   	  for	(var i = 0; i < 3; i++)
+   	  {
+   		 document.writeln("<tr> <td>" + (i + 1) + "</td>");
+   		 document.writeln
+   			("<td><input type='radio' name='r1' value='" 
+   				+ (i+1) 
+   				+ "'></td>");
+   		 for	(var j = 0; j < 7; j++)
+   		 {
+		    if (part == 1)
+			{
+   			   len = inStr.length;
+   			   rnd = Math.round(Math.random() * (len - 1));
+	           strChar = inStr.substring(rnd, rnd + 1);
+			   inStr = inStr.substring(0, rnd) +
+   					inStr.substring(rnd + 1, len);
+			}
+			else
+			{  //not random after part1 - take every 3rd one
+			   len = charOrder.length;	
+			   chr = charOrder.substring(0, 2);
+			   rnd = parseInt(chr);
+//	   alert("chr = " + chr + 
+//	   	         " rnd = " + rnd + 
+//	 			 " str = " + charOrder);
+			   charOrder = charOrder.substring(2, len);
+	           strChar = inStr.substring(rnd, rnd + 1);
+			}   			   	   
+   			document.writeln("   <td>" + strChar + "</td>");
+   			newStr = newStr + strChar;
+   		 }
+   		 document.writeln("<br>");
+   		 document.writeln("</tr>");
+   	  }
+   	  document.writeln("</table>");
+   	  document.writeln('<input type="hidden" ' + 
+   					 'name="b" size="21" ' +  
+   					 'value="' + newStr + '">');
+   	  document.writeln('<input type="hidden" ' +
+   					 'name="c" size = "7" ' + 
+   					 'value="' + poss + '">');
+   	  document.writeln('<input type="button" ' + 
+   	  			'onClick="javaScript: if (valChoice()) document.Form.submit() " ' +
+   						 'value="Scramble">');
+   }  					 
+	
+function valChoice()
+{		
+	var r = 0;	
+   	for (i = 0; i < 3; i++) 
+    {
+      	if	(document.Form.r1[i].checked) 
+       	{ 
+			r = parseInt(document.Form.r1[i].value);
+		}
+    }	
+	if	(r == 0)
+	{
+		alert("You must tell me which row your letter is in.");
+		document.Form.r1[0].focus();
+		return false;
+	}
+	return true;
+}		
+</script>
+</p>
+</form>
+</body>
+</html>

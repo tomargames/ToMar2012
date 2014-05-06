@@ -1,0 +1,145 @@
+<html>
+<head>
+<title>ToMar Twenty-Four</title>
+<script language="javascript">
+function calc()
+{
+	var numIn = new Array();
+	var numWork = new Array();
+	numIn[0] = document.test.num1.selectedIndex + 1;
+	numIn[1] = document.test.num2.selectedIndex + 1;
+	numIn[2] = document.test.num3.selectedIndex + 1;
+	numIn[3] = document.test.num4.selectedIndex + 1;
+	document.writeln("<html>");
+	document.writeln("<head>");
+	document.writeln("<title>ToMar Twenty-Four</title>");
+	document.writeln('<body bgcolor="#000000" text="#FFffBB">');
+	document.writeln('<p align="left">');
+	document.writeln('<font size="3" face="verdana">');
+	document.writeln("Calculating combinations that equal 24 for the following numbers:<br>");
+	for	(i = 0; i < 4; i++)
+	{
+		document.writeln(numIn[i]);
+	}
+    document.writeln('<br>');
+	document.writeln('<hr><hr>');
+	var formatString = "012301320213023103120321";
+	formatString = formatString + "102310321203123013021320";
+	formatString = formatString + "201320312103213023012310";
+	formatString = formatString + "301230213102312032013210";
+	// major loop - runs through all 24 permutations of the 4 numbers
+	for	(permut = 0; permut < 24; permut++)
+	{
+		// setting up numWork for this permutation
+		fmt = formatString.substring(4 * permut, 4 * (permut + 1));
+		for	(i = 0; i < 4; i++)
+		{
+			s = parseInt(fmt.substring(i, i + 1));
+			numWork[i] = numIn[s];
+		}
+		// this governs the first operator
+		for 	(i1 = 0; i1 < 4; i1++)
+		{
+			// this governs the second operator
+			for	(j2 = 0; j2 < 4; j2++)
+			{
+				// this governs the third operator
+				for	(k3 = 0; k3 < 4; k3++)
+				{
+					calculate(i1, j2, k3, 						numWork[0],
+					numWork[1],
+					numWork[2], numWork[3]);
+				}
+			}
+		}
+	}
+	document.writeln("No more combinations of 24 for these numbers. Press BACK to try another set of numbers.");
+}
+function calculate(o1, o2, o3, n1, n2, n3, n4)
+{
+	// set up array of operators
+	var op = new Array();
+	op[0] = '+';
+	op[1] = '-';
+	op[2] = '*';
+	op[3] = '/';
+	// perform operations with no parentheses
+	var str = ' ' + n1 + op[o1] + n2 + op[o2] + n3 + op[o3] + n4;
+	if	(evalStr(str) == true)
+	{
+		return true;
+	}
+	// 3 of them in parens
+	var str = '(' + n1 + op[o1] + n2 + op[o2] + n3 + ') ' + op[o3] + n4;
+	if	(evalStr(str) == true)
+	{
+		return true;
+	}
+	// 2 and 2
+	var str = '(' + n1 + op[o1] + n2 + ') ' + op[o2] + ' (' + n3 + op[o3] + n4 + ')';
+	if	(evalStr(str) == true)
+	{
+		return true;
+	}
+	// just 2 in parens - a (b c) d
+	var str = n1 + op[o1] + ' (' + n2 + op[o2] + n3 + ') ' + op[o3] + n4;
+	if	(evalStr(str) == true)
+	{
+		return true;
+	}
+	// just 2 in parens - (a b) c d
+	var str = '(' + n1 + op[o1] + n2  + ') '+ op[o2] + n3 + op[o3] + n4;
+	if	(evalStr(str) == true)
+	{
+		return true;
+	}
+	// just 2 in parens - a b (c d)
+	var str = n1 + op[o1] + n2 + op[o2] + ' (' + n3 + op[o3] + n4 + ')';
+	if	(evalStr(str) == true)
+	{
+		return true;
+	}
+}
+function evalStr(s)
+{
+	var answer = eval(s);
+	if	(answer == 24)
+	{
+		document.writeln(s + " = " + answer + "<br>");
+		return true;
+	}
+	return false;
+}
+</script>
+</head>
+<body bgcolor="black" text="#FFFFBB">
+<p align="center"><font size="6" face="verdana" color = "red">Twenty-Four</font></p>
+<p align="left"><font size="4" face="verdana">
+Give me four numbers from 1 to 24, and I'll tell you all the ways those four numbers can be made to total 24.
+<br><br>
+<form method="post" name="test">
+<table border=0>
+<script language="javascript">
+for	(var j = 1; j < 5; j++)
+{
+	document.write("<tr>");
+	document.write("<td>");
+	document.write("Number:");
+	document.write("</td>");
+	document.write("<td>");
+	document.write('<select size=1 name="num' + j +'">');
+	for	(var i = 1; i < 25; i++)
+	{
+		document.write("<option>" + i + "</option>");
+	}
+	document.write("</select>");
+	document.write("</td>");
+	document.write("</tr>");
+}
+</script>
+</table>
+<br><br>
+<input name="x" type="button" value="Calculate 24's" onClick="calc()">
+</form>
+</body>
+</html>

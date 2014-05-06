@@ -1,0 +1,7 @@
+<%
+// 	things need to be set before calling the include files
+	String fileName = "tmHighRunes";
+	String helpFile = "runesHelp.html";
+%>
+<%@ include file="../tmInclude/common.jsp"%>
+

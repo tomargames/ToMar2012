@@ -1,0 +1,7 @@
+<?php
+date_default_timezone_set("America/New_York");
+
+print_r(localtime());
+echo "<br><br>";
+print_r(localtime(time(),true));
+?>

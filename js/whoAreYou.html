@@ -1,0 +1,202 @@
+<html>
+<head>
+<title>ToMar Games: Who Are You?</title>
+<script language="javascript">
+function calc()
+{
+ 	var v1 = 0, v2 = 0, v3 = 0, v4 = 0, v5 = 0, v6 = 0, v7 = 0, v8 = 0, v9 = 0, v0 = 0;;
+   	for (var i = 0; i < 3; i++)
+      {
+      	if	(document.test.q1[i].checked)
+         	{
+			v1 = parseInt(document.test.q1[i].value);
+		}
+      }
+   	for (var i = 0; i < 5; i++)
+      {
+      	if	(document.test.q2[i].checked)
+         	{
+			v2 = parseInt(document.test.q2[i].value);
+		}
+      }
+   	for (var i = 0; i < 5; i++)
+      {
+      	if	(document.test.q3[i].checked)
+         	{
+			v3 = parseInt(document.test.q3[i].value);
+		}
+      }
+   	for (var i = 0; i < 4; i++)
+      {
+      	if	(document.test.q4[i].checked)
+         	{
+			v4 = parseInt(document.test.q4[i].value);
+		}
+      }
+   	for (var i = 0; i < 4; i++)
+      {
+      	if	(document.test.q5[i].checked)
+         	{
+			v5 = parseInt(document.test.q5[i].value);
+		}
+      }
+   	for (var i = 0; i < 3; i++)
+      {
+      	if	(document.test.q6[i].checked)
+         	{
+			v6 = parseInt(document.test.q6[i].value);
+		}
+      }
+   	for (var i = 0; i < 3; i++)
+      {
+      	if	(document.test.q7[i].checked)
+         	{
+			v7 = parseInt(document.test.q7[i].value);
+		}
+      }
+   	for (var i = 0; i < 7; i++)
+      {
+      	if	(document.test.q8[i].checked)
+         	{
+			v8 = parseInt(document.test.q8[i].value);
+		}
+      }
+   	for (var i = 0; i < 5; i++)
+      {
+      	if	(document.test.q9[i].checked)
+         	{
+			v9 = parseInt(document.test.q9[i].value);
+		}
+      }
+   	for (var i = 0; i < 6; i++)
+      {
+      	if	(document.test.q0[i].checked)
+         	{
+			v0 = parseInt(document.test.q0[i].value);
+		}
+      }
+
+	if	(v1 == 0 || v2 == 0 || v3 == 0 || v4 == 0 || v5 == 0 || v6 == 0 || v7 == 0 || v8 == 0 || v9 == 0 || v0 == 0)
+	{
+		alert("You must answer every question.");
+		document.test.q1[0].focus();
+	}
+	else
+	{
+		var answer = v1 + v2 + v3 + v4 + v5 + v6 + v7 + v8 + v9 + v0;
+		alert("Your score is " + answer + ". Here's what it means.");
+		if (answer > 60)
+		{
+		   window.location = "whoYouAre.html#p61";
+		}
+		else if (answer > 50)
+		{
+		   window.location = "whoYouAre.html#p51";
+		}
+		else if (answer > 40)
+		{
+		   window.location = "whoYouAre.html#p41";
+		}
+		else if (answer > 30)
+		{
+		   window.location = "whoYouAre.html#p31";
+		}
+		else if (answer > 20)
+		{
+		   window.location = "whoYouAre.html#p21";
+		}
+		else
+		{
+		   window.location = "whoYouAre.html#p01";
+		}
+	}
+}
+</script>
+</head>
+<body bgcolor="#FFFFBB" text="#cc00cc">
+<p align="center"><font size="6" face="ms sans serif">Who Are You?</font></p>
+<p align="left"><font size="4" face="ms sans serif" color="#000080">
+This is an interesting little quiz that will give you a glimpse of how you are seen by others.
+<br><br>
+We're told that this quiz is actually used by the Human Relations Departments at major corporations to help them get some insight into their employees or potential employees.
+<br><br>
+There are only ten questions, and you should answer them honestly about who you are now, regardless of the past.
+<br><br>
+Ready? Okay, here we go!
+<br><br>
+</font></p>
+<form method="post" name="test">
+<p align="left"><font size="3" face="ms sans serif" color="#220022">
+1.	When do you feel your best?<br>
+<input type="radio" name="q1" value="2">in the morning<br>
+<input type="radio" name="q1" value="4">in afternoon and early evening<br>
+<input type="radio" name="q1" value="6">late at night<br>
+<br>
+2.	 You usually walk<br>
+<input type="radio" name="q2" value="6">fairly fast, with long steps<br>
+<input type="radio" name="q2" value="4">fairly fast, with short, quick steps<br>
+<input type="radio" name="q2" value="7">less fast, with my head up, looking the world in the face<br>
+<input type="radio" name="q2" value="2">less fast, head down<br>
+<input type="radio" name="q2" value="1">very slowly<br>
+<br>
+3.	When talking to people, you<br>
+<input type="radio" name="q3" value="4">stand with your arms folded<br>
+<input type="radio" name="q3" value="2">have your hands clasped<br>
+<input type="radio" name="q3" value="5">have one or both your hands on your hips<br>
+<input type="radio" name="q3" value="7">touch or push the person to whom you are talking<br>
+<input type="radio" name="q3" value="6">play with your ear, touch your chin, or smooth your hair<br>
+<br>
+4.	When relaxing, you sit with<br>
+<input type="radio" name="q4" value="1">one leg curled under you<br>
+<input type="radio" name="q4" value="4">your knees bent with your legs neatly side by side<br>
+<input type="radio" name="q4" value="6">your legs crossed<br>
+<input type="radio" name="q4" value="2">your legs stretched out or straight<br>
+<br>
+5.	When something really amuses you, you react with<br>
+<input type="radio" name="q5" value="4">a laugh, but not a loud one<br>
+<input type="radio" name="q5" value="6">a big, appreciative laugh<br>
+<input type="radio" name="q5" value="2">a sheepish smile<br>
+<input type="radio" name="q5" value="3">a quiet chuckle<br>
+<br>
+6. 	When you go to a party or social gathering, you<br>
+<input type="radio" name="q6" value="4">make a quiet entrance, looking around for someone you know<br>
+<input type="radio" name="q6" value="2">make the quietest entrance, trying to stay unnoticed<br>
+<input type="radio" name="q6" value="6">make a loud entrance so everyone notices you<br>
+<br>
+7.	You're working very hard, concentrating hard, and you're interrupted. Do you<br>
+<input type="radio" name="q7" value="6">welcome the break<br>
+<input type="radio" name="q7" value="2">feel extremely irritated<br>
+<input type="radio" name="q7" value="4">vary between these two extremes<br>
+<br>
+8.	Which of the following colors do you like most?<br>
+<input type="radio" name="q8" value="3">dark blue or purple<br>
+<input type="radio" name="q8" value="6">red or orange<br>
+<input type="radio" name="q8" value="7">black<br>
+<input type="radio" name="q8" value="1">brown or gray<br>
+<input type="radio" name="q8" value="4">green<br>
+<input type="radio" name="q8" value="5">yellow or light blue<br>
+<input type="radio" name="q8" value="2">white<br>
+<br>
+9.	When you are in bed at night, in those last few moments before going to sleep, you lie<br>
+<input type="radio" name="q9" value="7">stretched out on your back<br>
+<input type="radio" name="q9" value="4">on your side, slightly curled<br>
+<input type="radio" name="q9" value="1">with your head under the covers<br>
+<input type="radio" name="q9" value="2">with your head on one arm<br>
+<input type="radio" name="q9" value="6">stretched out face down on your stomach<br>
+<br>
+10.	You often dream that you are<br>
+<input type="radio" name="q0" value="4">falling<br>
+<input type="radio" name="q0" value="2">fighting or struggling<br>
+<input type="radio" name="q0" value="3">searching for something or somebody<br>
+<input type="radio" name="q0" value="5">flying or floating<br>
+<input type="radio" name="q0" value="6">you usually have dreamless sleep<br>
+<input type="radio" name="q0" value="1">your dreams are always pleasant<br>
+<br>
+</font></p>
+<p align="left"><font size="3" face="ms sans serif" color="#000080">
+Well, that's it. Now, to find out what kind of person you are, click on the button below, and hold your breath.
+</font></p>
+<input name="x" type="button" value="Show Score" onClick="calc()">
+</form>
+</body>
+</html>

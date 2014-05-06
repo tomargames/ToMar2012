@@ -1,0 +1,521 @@
+<html>
+<head>
+<title>ToMar Twenty-Four</title>
+<STYLE TYPE="text/css" MEDIA=screen>
+<!--
+.btn
+{
+   background: "#FFFFCC";
+}
+.nbr
+{
+   font-family: verdana;
+   font-size: x-large;
+   color: powderblue;
+   font-weight: normal;
+   text-align: center;
+}
+-->
+</STYLE>
+
+<script language="javascript" SRC="../include/argParse.js"></script>
+<script language="javascript">
+
+function calc()
+{
+    var numWork = new Array();
+    if (flag != "test")
+    {
+        document.writeln("<html>");
+        document.writeln("<head>");
+        document.writeln("<title>ToMar Twenty-Four</title>");
+        document.writeln('<body bgcolor="#000000"   text="#FFffBB">');
+        document.writeln('<p align="left">');
+        document.writeln('<font size="3" face="verdana">');
+        document.writeln("Here are the combinations that equal 24   for the following numbers:<br><br>");
+        for (i = 0; i < 4; i++)
+        {
+            document.writeln(numIn[i]);
+        }
+        document.writeln('<br><br>');
+        document.writeln('<hr><hr>');
+        document.writeln("<br><br>");
+    }
+    numComs = 0;
+    numBoth = 0;
+    numDiv = 0;
+    numMlt = 0;
+    numPar = 0;
+    var formatString = "012301320213023103120321";
+    formatString = formatString + "102310321203123013021320";
+    formatString = formatString + "201320312103213023012310";
+    formatString = formatString + "301230213102312032013210";
+    // major loop - runs through all 24 permutations of the 4 numbers
+    for (permut = 0; permut < 24; permut++)
+    {
+        // setting up numWork for this permutation
+        fmt = formatString.substring(4 * permut, 4 * (permut + 1));
+        for (i = 0; i < 4; i++)
+        {
+            s = parseInt(fmt.substring(i, i + 1));
+            numWork[i] = numIn[s];
+        }
+        // this governs the first operator
+        for     (i1 = 0; i1 < hiop; i1++)
+        {
+            // this governs the second operator
+            for (j2 = 0; j2 < hiop; j2++)
+            {
+                // this governs the third operator
+                for (k3 = 0; k3 < hiop; k3++)
+                {
+                    var result = calculate(i1, j2, k3,                      numWork[0],
+                                 numWork[1],
+                                 numWork[2], numWork[3]);
+                    if (result == true)
+                    {
+                        if (flag == "test")
+                        {
+                          return true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (flag != "test")
+    {
+        document.writeln("<br><br>");
+        var baseVal = 100 - numComs;
+        if (baseVal < 0)
+        {
+            baseVal = 10;
+        }
+        if (numComs < 10)
+        {
+        	baseVal *= 2;
+        }
+        baseVal = baseVal * (1 +    numPar/numComs);
+        if (numMlt/numComs +    numDiv/numComs > .5)
+        {
+            if (numMlt/numComs  + numDiv/numComs < 1)
+            {
+                baseVal = baseVal * (numMlt/numComs + numDiv/numComs);
+            }
+        }
+        else
+        {
+            baseVal = baseVal * .5;
+        }
+        baseVal = baseVal * (1 +    (numBoth/numComs));
+        baseVal = baseVal * (1 +    (numBig/4));
+        baseVal = Math.round(baseVal);
+        document.writeln("This puzzle was worth " + baseVal + " points.<br><br>");
+        if (flag == "won")
+        {
+            if (secs > 60)
+            {
+                var adj = 60 - secs;
+            }
+            else if (secs < 20)
+            {
+                var adj = 300;
+            }
+            else if (secs < 40)
+            {
+                var adj = 200;
+            }
+            else
+            {
+                var adj = 100;
+            }
+            document.writeln("You got " + adj + " points for time.<br><br>");
+            baseVal = baseVal + adj;
+            if (baseVal < 10) baseVal = 10;
+            cumPoints += baseVal;
+            document.writeln("Your final score for this round is " + baseVal + ".<br><br><br>");
+			doRank();
+            document.writeln('<br><br><table border=4>');
+            document.writeln('<tr><td>Score</td><td>Name</td></tr>');
+            for (var i = 0; i < 10; i++)
+            {
+                if (baseVal > highscore[i])
+                {
+                    for (var j = 9; j > i; j--)
+                    {
+                        highscore[j] = highscore[j-1];
+                        highname[j] = highname[j-1];
+				        SetCookie(name+j,highscore[j]+","+highname[j],exp);
+                    }
+                    highname[i] = prompt("You have a new high score! Enter something meaningful to you: ","Your name");
+                    highscore[i] = baseVal;
+			        SetCookie(name+i,highscore[i]+","+highname[i],exp);
+                    baseVal = 0;
+                }
+                document.writeln('<tr><td>' + highscore[i] + '</td><td>' + highname[i]+'</td></tr>');
+            }
+            document.writeln('</table>');
+        }
+        SetCookie(name+"pts",cumPoints,exp);
+        document.writeln('<br><a href="../menu/tomar.html">Back to ToMar Games</a>');
+        document.writeln('<a href="twentyfourgame.html?puzzsize=' + size + '&hiop='+hiop+'">Do Another 24 Puzzle</a>');
+        document.writeln('</body>');
+        document.writeln('</html>');
+        return false;
+    }
+    else
+    {
+       return false;
+    }
+}
+function doRank()
+{
+    if (cumPoints < begLevel)
+    {
+      	rank = "Beginner";
+    }
+    else if (cumPoints < intLevel)
+    {
+       	rank = "Intermediate";
+    }
+    else if (cumPoints < advLevel)
+    {
+    	rank = "Advanced";
+    }
+    else if (cumPoints < mstLevel)
+    {
+    	rank = "Master";
+    }
+    else
+    {
+    	rank = "Beyond Mortal Levels";
+    }
+	document.writeln("<table><tr><td>Total accumulated points:</td><td>" + cumPoints +
+      				"</td></tr><tr><td>Current ranking:</td><td>"
+      				 + rank + "</td></tr></table>");
+}
+function calculate(o1, o2, o3, n1, n2, n3, n4)
+{
+    // set up array of operators
+    var op = new Array();
+    op[0] = ' + ';
+    op[1] = ' - ';
+    op[2] = ' * ';
+    op[3] = ' / ';
+    // perform operations with no parentheses
+    var str = ' ' + n1 + op[o1] + n2 + op[o2] + n3 + op[o3] + n4;
+    if  (evalStr(str) == true)
+    {
+        return true;
+    }
+    if (hiop == 3)		// baby level - no parentheses
+    {
+    	return false;
+    }
+    // 3 of them in parens
+    var str = '(' + n1 + op[o1] + n2 + op[o2] + n3 + ')' + op[o3] + n4;
+    if  (evalStr(str) == true)
+    {
+        numPar++;
+        return true;
+    }
+    // 2 and 2
+    var str = '(' + n1 + op[o1] + n2 + ')' + op[o2] + '(' + n3 + op[o3] + n4 + ')';
+    if  (evalStr(str) == true)
+    {
+        return true;
+    }
+    // just 2 in parens - a (b c) d
+    var str = n1 + op[o1] + '(' + n2 + op[o2] + n3 + ')' + op[o3] + n4;
+    if  (evalStr(str) == true)
+    {
+        return true;
+    }
+    // just 2 in parens - (a b) c d
+    var str = '(' + n1 + op[o1] + n2  + ')'+ op[o2] + n3 + op[o3] + n4;
+    if  (evalStr(str) == true)
+    {
+        return true;
+    }
+    // just 2 in parens - a b (c d)
+    var str = n1 + op[o1] + n2 + op[o2] + '(' + n3 + op[o3] + n4 + ')';
+    if  (evalStr(str) == true)
+    {
+        return true;
+    }
+    return false;
+}
+function evalStr(s)
+{
+    var answer = eval(s);
+    if  (answer == 24)
+    {
+            if (flag != "test")
+        {
+        numComs++;
+        if (s.indexOf("/") > -1)
+            numDiv++;
+        if (s.indexOf("*") > -1)
+            numMlt++;
+        if (s.indexOf("/") > -1 && s.indexOf("*") > -1)
+            numBoth++;
+        document.writeln(s + " = " + answer + "<br>");
+        }
+        return true;
+    }
+    return false;
+}
+</script>
+</head>
+<body bgcolor="black" text="#FFFFBB">
+<p align="center"><font size="6" face="verdana" color = "red">Twenty-Four</font></p>
+<p align="left"><font size="4" face="verdana">
+<form name="Form" action="twentyfourgame.html">
+<input type="hidden" name="puzzsize">
+<input type="hidden" name="stage">
+<input type="hidden" name="n0">
+<input type="hidden" name="n1">
+<input type="hidden" name="n2">
+<input type="hidden" name="n3">
+<input type="hidden" name="timer">
+<input type="hidden" name="hiop">
+Here are four numbers - tell me how they can make 24.
+<br><br>
+<table width="50%">
+<tr>
+<script language="javascript">
+//main routine
+var numIn = new Array();
+var flag = "test";
+var numComs = 0;
+var numBoth = 0;
+var numDiv = 0;
+var numMlt = 0;
+var numPar = 0;
+var numBig = 0;
+var secs = 0;
+var name = "ToMar24";
+var expDays = 365;
+var exp = new Date();
+var cumPoints = 0;
+var rank = "Beginner";
+var begLevel = 1000;
+var intLevel = 2000;
+var advLevel = 3000;
+var mstLevel = 4000;
+var hiop = 4;
+exp.setTime(exp.getTime() + (expDays*24*60*60*1000));
+
+// high score table
+var highscore = new Array();
+var highname = new Array();
+for (var i = 0; i < 10; i++)
+{
+    var txt = GetCookie(name+i);
+	if (txt == null)
+	{
+        highscore[i] = (10 - i) * 40;
+        highname[i] = "Chris rules - 4/14/2001";
+        SetCookie(name+i,highscore[i]+","+highname[i],exp);
+	}
+	else
+	{
+        var scores = txt.split(",");
+        highscore[i] = parseInt(scores[0]);
+        highname[i] = scores[1];
+    }
+}
+var strP = GetCookie(name+"pts");
+if (strP == null)
+{
+	cumPoints = 0;
+}
+else
+{
+	cumPoints = parseInt(strP);
+}
+// get puzzle size from URL
+argData=getSearchAsArray();
+if (argData["puzzsize"] == null)
+{
+  var size = 8;
+}
+else
+{
+  var size = parseInt(argData["puzzsize"]);
+  if (size == 1)
+  {
+  	size = 8;
+  	hiop = 3;
+  }
+}
+if (argData["hiop"] != null)
+{
+  hiop = parseInt(argData["hiop"]);
+}
+if (argData["stage"] == null)
+{
+   var stage = "new";
+}
+else
+{
+  var stage = argData["stage"];
+}
+// create a random puzzle
+if (stage == "new")
+{
+    argData["guess"] = "";
+    var rslt;
+    do
+    {
+        numBig = 0;
+ 	    for (var j = 0; j < 4; j++)
+    	{
+            numIn[j] = Math.round(Math.random() * size) + 1;
+            if (numIn[j] > 10)
+               numBig++;
+    	}
+    	// test it to see if it can be solved
+    	rslt = calc();
+    } while (rslt == false)
+    // set start time for puzzle
+    var timer = new Date();
+}
+else
+{
+    numIn[0] = argData["n0"];
+    numIn[1] = argData["n1"];
+    numIn[2] = argData["n2"];
+    numIn[3] = argData["n3"];
+    timer = argData["timer"];
+}
+// display the numbers
+for (var j = 0; j < 4; j++)
+{
+  document.writeln('<td class="nbr">' + numIn[j] + '</td>');
+}
+// set hidden form field to size so it can get passed back in
+document.Form.puzzsize.value=size;
+document.Form.stage.value="guess";
+document.Form.hiop.value=hiop;
+document.Form.n0.value=numIn[0];
+document.Form.n1.value=numIn[1];
+document.Form.n2.value=numIn[2];
+document.Form.n3.value=numIn[3];
+document.Form.timer.value=timer;
+</script>
+</tr>
+</table>
+<br><br>
+Your guess: <input name="guess" type="text" size="30" value="">&nbsp <input class="btn" name="x" type="button" value="Submit Guess" onClick="testGuess()">
+
+<br><br>
+<input class="btn" name="z" type="button" value="New Puzzle" onClick="getNew()">
+<input class="btn" name="y" type="button" value="Give Up" onClick="giveUp()">
+<input class="btn" name="h" type="button" value="Help" onClick="getHelp()">
+</form>
+<script language="javascript">
+doRank();
+document.Form.guess.value=unescape(argData["guess"]);
+document.Form.guess.focus();
+
+function getHelp()
+{
+ 	window.open("twentyFourHelp.html","POP24",
+"width=600,height=250,status=no,toolbar=no,menubar=no,scrollbars=yes,resizable=no,screenX=6,screenY=6");
+}
+function testGuess()
+{
+   var str = document.Form.guess.value;
+   var msg = "You got it!";
+   if (str != "tomar rocks")
+   {
+    var answer = eval(str);
+    if (answer == 24)
+    {  // check to see if all the numbers were used
+        str = "(" + str + ")";
+        var checkArr = new Array();
+        var cntr = 0;
+        var accum = "";
+        for (var i = 0; i < str.length; i++)
+        {
+            var s = str.substring(i, i+1); // get a char
+            if (isNaN(s))
+            {
+                if (accum > "              ")
+                {
+                    // need to store accum
+                checkArr[cntr] = parseInt(accum);
+                accum = "";
+                cntr++;
+                }
+            }
+            else
+            {
+                // if it's a number, add it to the number being built
+                accum = accum + s;
+            }
+        }
+        if (cntr > 4)
+        {
+            msg = "You have extra numbers in your solution. Try again!";
+        }
+        else
+        {
+        var checkStr = str;
+        for (var i = 0; i < 4; i++)  // spin thru numIn
+        {
+            var foundIt = false;
+            for (var j = 0; j < 4; j++)
+            {
+                if (numIn[i] == checkArr[j])
+                {
+                    checkArr[j] = 0;
+                    foundIt = true;
+                    break;
+                }
+            }
+            if (foundIt == false)
+            {
+            msg = "Didn't find " + numIn[i] + " in your solution. Try again!";
+            break;
+                }
+            }
+        }
+    }
+    else
+    {
+         msg = str + " doesn't make 24, it makes " + answer + ". Try again!";
+    }
+   }
+   if (msg == "You got it!")
+   {
+     var wintime = new Date();
+     secs = Math.round((wintime.getTime() - timer.getTime())/1000);
+     str = str.substring(1,str.length - 1);
+     alert(str + " = 24! You got it! Please wait while I calculate your score...");
+     document.Form.guess.value = "";
+     flag="won";
+     calc();
+   }
+   else
+   {
+     alert(msg);
+     document.Form.guess.focus();
+   }
+}
+function giveUp()
+{
+   document.Form.guess.value = "";
+   flag="solve";
+   cumPoints -= 25;
+   calc();
+}
+function getNew()
+{
+   document.Form.stage.value = "new";
+   document.Form.submit();
+}
+</script>
+</body>
+</html>

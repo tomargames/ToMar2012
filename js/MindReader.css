@@ -1,0 +1,58 @@
+body 
+{	
+	 background: black; 
+	 font-family: verdana;
+	 font-size: small;
+	 text: aqua
+}
+h1, h2, h3, h4, h5, h6 
+{	
+	font-family: verdana; 
+}
+h1 
+{  
+   font-size: x-large; 
+   color: fuchsia;
+   font-weight: normal; 
+   text-align: center 
+}
+h2 
+{ 
+   font-size: small; 
+   color: fuchsia; 
+   font-weight: normal; 
+   text-align: center
+}
+h3
+{ 
+   font-size: small; 
+   color: aqua; 
+   font-weight: bold; 
+   text-align: left
+}
+h4
+{ 
+   font-size: small;
+   color: aqua; 
+   font-weight: bold; 
+   text-align: center
+}
+ol
+{
+   start: "1";
+   type: "1";
+   font-size: small;
+   color: green;
+   font-weight: bold
+}   
+p
+{
+  	text-align: center
+}
+table
+{
+  	font-size: large;
+	color: olive;
+    font-weight: normal; 
+	border: 0
+}	 
